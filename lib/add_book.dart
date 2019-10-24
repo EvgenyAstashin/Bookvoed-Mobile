@@ -64,7 +64,7 @@ class AddBookState extends State<AddBookScreen> {
       Navigator.pop(context);
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => BookInfo(response.items[0])),
+        MaterialPageRoute(builder: (context) => BookInfo(response.items[0], _barcode)),
       );
     }
   }

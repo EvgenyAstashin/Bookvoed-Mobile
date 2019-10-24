@@ -1,9 +1,10 @@
-import 'package:bookvoed/add_book.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 
 import 'book_info.dart';
+import 'db/db_provider.dart';
+import 'models/book_short_info.dart';
 import 'models/books_respons.dart';
 import 'network.dart';
 
@@ -48,10 +49,23 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center
-        ),
+      body: FutureBuilder<List<BookShortInfo>>(
+        future: DBProvider.db.getAllBooks(),
+        builder: (BuildContext context, AsyncSnapshot<List<BookShortInfo>> snapshot) {
+          if (snapshot.hasData) {
+            return ListView.builder(
+              itemCount: snapshot.data.length,
+              itemBuilder: (BuildContext context, int index) {
+                BookShortInfo item = snapshot.data[index];
+                return ListTile(
+                  title: Text(item.title)
+                );
+              },
+            );
+          } else {
+            return Center(child: CircularProgressIndicator());
+          }
+        },
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _addBookPressed,
@@ -74,15 +88,18 @@ class _MyHomePageState extends State<MyHomePage> {
     _progressDialog.show();
     var result = await getBook(isbn);
     _progressDialog.hide();
-    _openBookInfo(result);
+    _openBookInfo(result, isbn);
   }
 
-  void _openBookInfo(BooksResponse response) {
+  void _openBookInfo(BooksResponse response, String isbn) {
     if(response.totalItems > 0) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => BookInfo(response.items[0])),
+        MaterialPageRoute(builder: (context) => BookInfo(response.items[0], isbn)),
       );
+      setState(() {
+
+      });
     }
   }
 }

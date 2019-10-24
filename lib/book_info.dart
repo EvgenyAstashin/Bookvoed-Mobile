@@ -1,12 +1,16 @@
+import 'package:bookvoed/db/db_provider.dart';
+import 'package:bookvoed/models/book_short_info.dart';
 import 'package:flutter/material.dart';
 
 import 'models/book.dart';
 
 class BookInfo extends StatelessWidget {
   Book _book;
+  String _isbn;
 
-  BookInfo(Book book) {
+  BookInfo(Book book, String isbn) {
     _book = book;
+    _isbn = isbn;
   }
 
   @override
@@ -15,19 +19,21 @@ class BookInfo extends StatelessWidget {
       appBar: AppBar(
         title: Text(_book.volumeInfo.title),
       ),
-      body: _getBody(),
+      body: _getBody(context),
     );
   }
 
-  Widget _getBody() {
+  Widget _getBody(BuildContext context) {
     List<Widget> widgets = List();
     widgets.add(_getTitle());
     if (_book.volumeInfo.imageLinks != null) widgets.add(_getImage());
     widgets.add(_getSpannedText("Автор: ", _getAuthors()));
     widgets.add(_getSpannedText("Описание: ", _book.volumeInfo.description));
     widgets.add(_getSpannedText("Издатель: ", _book.volumeInfo.publisher));
-    widgets.add(_getSpannedText("Страниц: ", _book.volumeInfo.pageCount.toString()));
+    widgets.add(
+        _getSpannedText("Страниц: ", _book.volumeInfo.pageCount.toString()));
     widgets.add(_getSpannedText("Год: ", _book.volumeInfo.publishedDate));
+    widgets.add(_getButton(context));
     return Padding(
         padding: EdgeInsets.all(10),
         child: Column(
@@ -47,9 +53,9 @@ class BookInfo extends StatelessWidget {
 
   String _getAuthors() {
     String result = "";
-    for(String author in _book.volumeInfo.authors) {
+    for (String author in _book.volumeInfo.authors) {
       result += author;
-      if(_book.volumeInfo.authors.last != author) {
+      if (_book.volumeInfo.authors.last != author) {
         result += ", ";
       }
     }
@@ -66,10 +72,29 @@ class BookInfo extends StatelessWidget {
                   color: Colors.black,
                 ),
                 children: <TextSpan>[
-                  new TextSpan(
-                      text: title,
-                      style: new TextStyle(fontWeight: FontWeight.bold)),
-                  new TextSpan(text: body)
-                ])));
+              new TextSpan(
+                  text: title,
+                  style: new TextStyle(fontWeight: FontWeight.bold)),
+              new TextSpan(text: body)
+            ])));
+  }
+
+  Widget _getButton(BuildContext context) {
+    return Padding(
+        padding: EdgeInsets.all(20),
+        child: Center(
+          child: RaisedButton(
+            child: Text("Добавить в список"),
+            onPressed: () {_saveBookShortInfoAndClose(context);},
+          ),
+        ));
+  }
+
+  _saveBookShortInfoAndClose(BuildContext context) async {
+    var book = BookShortInfo();
+    book.title = _book.volumeInfo.title;
+    book.isbn = _isbn;
+    await DBProvider.db.insertBook(book);
+    Navigator.pop(context);
   }
 }
