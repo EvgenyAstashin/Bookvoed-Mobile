@@ -1,9 +1,9 @@
 import 'package:bookvoed/book_info.dart';
-import 'package:bookvoed/models/books_respons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 
+import 'entity/book.dart';
 import 'network.dart';
 
 class AddBookScreen extends StatefulWidget {
@@ -59,13 +59,11 @@ class AddBookState extends State<AddBookScreen> {
     _openBookInfo(result);
   }
 
-  void _openBookInfo(BooksResponse response) {
-    if(response.totalItems > 0) {
+  void _openBookInfo(Book book) {
       Navigator.pop(context);
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => BookInfo(response.items[0], _barcode)),
+        MaterialPageRoute(builder: (context) => BookInfo(book, _barcode)),
       );
-    }
   }
 }

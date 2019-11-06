@@ -1,11 +1,10 @@
+import 'package:bookvoed/ui/login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 
 import 'book_info.dart';
-import 'db/db_provider.dart';
-import 'models/book_short_info.dart';
-import 'models/books_respons.dart';
+import 'entity/book.dart';
 import 'network.dart';
 
 void main() => runApp(MyApp());
@@ -19,15 +18,13 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: LoginScreen(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-
-  final String title;
+  MyHomePage({Key key}) : super(key: key);
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -47,26 +44,26 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text("Мои книги"),
       ),
-      body: FutureBuilder<List<BookShortInfo>>(
-        future: DBProvider.db.getAllBooks(),
-        builder: (BuildContext context, AsyncSnapshot<List<BookShortInfo>> snapshot) {
-          if (snapshot.hasData) {
-            return ListView.builder(
-              itemCount: snapshot.data.length,
-              itemBuilder: (BuildContext context, int index) {
-                BookShortInfo item = snapshot.data[index];
-                return ListTile(
-                  title: Text(item.title)
-                );
-              },
-            );
-          } else {
-            return Center(child: CircularProgressIndicator());
-          }
-        },
-      ),
+//      body: FutureBuilder<List<Book>>(
+//        future: DBProvider.db.getAllBooks(),
+//        builder: (BuildContext context, AsyncSnapshot<List<BookShortInfo>> snapshot) {
+//          if (snapshot.hasData) {
+//            return ListView.builder(
+//              itemCount: snapshot.data.length,
+//              itemBuilder: (BuildContext context, int index) {
+//                BookShortInfo item = snapshot.data[index];
+//                return ListTile(
+//                  title: Text(item.title)
+//                );
+//              },
+//            );
+//          } else {
+//            return Center(child: CircularProgressIndicator());
+//          }
+//        },
+//      ),
       floatingActionButton: FloatingActionButton(
         onPressed: _addBookPressed,
         child: Icon(Icons.add),
@@ -91,15 +88,13 @@ class _MyHomePageState extends State<MyHomePage> {
     _openBookInfo(result, isbn);
   }
 
-  void _openBookInfo(BooksResponse response, String isbn) {
-    if(response.totalItems > 0) {
+  void _openBookInfo(Book book, String isbn) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => BookInfo(response.items[0], isbn)),
+        MaterialPageRoute(builder: (context) => BookInfo(book, isbn)),
       );
       setState(() {
 
       });
-    }
   }
 }
