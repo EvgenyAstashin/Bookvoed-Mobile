@@ -1,9 +1,10 @@
 import 'package:bookvoed/network/user_api_impl.dart';
 import 'package:bookvoed/presenter/login_presenter.dart';
 import 'package:bookvoed/ui/dialogs/error_dialog.dart';
+import 'package:bookvoed/ui/registration.dart';
 import 'package:bookvoed/view/login_view.dart';
 import 'package:flutter/material.dart';
-import '../home.dart';
+import '../main.dart';
 import 'dialogs/progress_dialog.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -35,44 +36,48 @@ class LoginState extends State<LoginScreen> implements LoginView {
     var width = MediaQuery.of(context).size.width;
     return Scaffold(
         backgroundColor: Color.fromARGB(255, 255, 255, 255),
-        body: Column(
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.only(top: height * 0.15, left: width * 0.15, right: width * 0.15),
-              child: Image.asset('assets/images/logo.png'),
+        body: Column(children: <Widget>[
+          Padding(
+            padding: EdgeInsets.only(
+                top: height * 0.15, left: width * 0.15, right: width * 0.15),
+            child: Image.asset('assets/images/logo.png'),
+          ),
+          Padding(
+            padding: EdgeInsets.only(
+                top: height * 0.1, left: width * 0.05, right: width * 0.05),
+            child: Column(
+              children: <Widget>[
+                TextField(
+                    maxLines: 1,
+                    controller: _usernameController,
+                    decoration: InputDecoration(labelText: 'Username')),
+                TextField(
+                    maxLines: 1,
+                    controller: _passwordController,
+                    decoration: InputDecoration(labelText: 'Password'),
+                    obscureText: true)
+              ],
             ),
-            Padding(
-              padding: EdgeInsets.only(top: height * 0.1, left: width * 0.05, right: width * 0.05),
-              child: Column(
-                children: <Widget>[
-                  TextField(
-                      maxLines: 1,
-                      controller: _usernameController,
-                      decoration: InputDecoration(labelText: 'Username')),
-                  TextField(
-                      maxLines: 1,
-                      controller: _passwordController,
-                      decoration: InputDecoration(labelText: 'Password'),
-                      obscureText: true)
-                ],
-              ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(top: height * 0.02, bottom: height * 0.02),
+            child: RaisedButton(
+              child: Text("Sign in"),
+              color: Colors.green,
+              onPressed: () {
+                _presenter.login(
+                    _usernameController.text, _passwordController.text);
+              },
             ),
-            Padding(
-              padding: EdgeInsets.only(top: height * 0.02, bottom: height * 0.02),
-              child: RaisedButton(
-                child: Text("Sign in"),
-                color: Colors.green,
-                onPressed: () {
-                  _presenter.login(
-                      _usernameController.text, _passwordController.text);
-                },
-              ),
-            ),
-            Text("Create account", style: TextStyle(
-              fontWeight: FontWeight.bold
-            )),
-          ],
-        ));
+          ),
+          GestureDetector(
+            onTap: () {
+              _openRegistrationScreen();
+            },
+            child: Text("Create account",
+                style: TextStyle(fontWeight: FontWeight.bold)),
+          )
+        ]));
   }
 
   @override
@@ -80,7 +85,7 @@ class LoginState extends State<LoginScreen> implements LoginView {
     Navigator.pop(context);
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => HomePage()),
+      MaterialPageRoute(builder: (context) => MainScreen()),
     );
   }
 
@@ -92,5 +97,12 @@ class LoginState extends State<LoginScreen> implements LoginView {
   @override
   void showProgressDialog(bool show) {
     _progressDialog.show(show);
+  }
+
+  void _openRegistrationScreen() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => RegistrationScreen()),
+    );
   }
 }

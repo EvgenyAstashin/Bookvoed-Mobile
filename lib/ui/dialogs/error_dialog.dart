@@ -10,7 +10,7 @@ class ErrorDialog {
           content: new Text(message),
           actions: <Widget>[
             new FlatButton(
-              child: new Text("Ok"),
+              child: new Text("OK"),
               onPressed: () {
                 Navigator.of(context).pop();
               },
