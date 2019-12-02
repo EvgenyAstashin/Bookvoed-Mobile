@@ -10,14 +10,14 @@ class LoginPresenter extends BasePresenter<LoginView> {
   LoginPresenter(LoginView view, this.userApi) : super(view);
 
   void login(String username, String password) {
-    userApi.login(username, password)
-        .then((jwt) {
-          AppValues.get().token = jwt.token;
-          view.onUserSignedIn();
-    })
-        .catchError((error) {
-          view.showIncorrectUsernameOrPasswordError();
-        });
+    view.showProgressDialog(true);
+    userApi.login(username, password).then((jwt) {
+      AppValues.get().token = jwt.token;
+      view.showProgressDialog(false);
+      view.onUserSignedIn();
+    }).catchError((error) {
+      view.showProgressDialog(false);
+      view.showIncorrectUsernameOrPasswordError();
+    });
   }
-  
 }
