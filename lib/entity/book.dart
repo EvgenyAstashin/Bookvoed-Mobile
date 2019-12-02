@@ -28,15 +28,15 @@ class Book {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    isbn = data['isbn'] = isbn;
-        data['title'] = title;
-        data['subtitle'] = subtitle;
-        data['description'] = description;
-        data['authors'] = authors;
-        data['pages'] = pages;
-        data['publisher'] = publisher;
-        data['publishedDate'] = publishedDate;
-        data['image'] = image;
+    data['isbn'] = isbn;
+    data['title'] = title;
+    data['subtitle'] = subtitle;
+    data['description'] = description;
+    data['authors'] = authors;
+    data['pages'] = pages;
+    data['publisher'] = publisher;
+    data['publishedDate'] = publishedDate;
+    data['image'] = image;
     return data;
   }
 }
