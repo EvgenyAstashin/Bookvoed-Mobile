@@ -1,4 +1,4 @@
-import 'package:bookvoed/view/base_view.dart';
+import 'package:bookvoed/mvp/base_view.dart';
 
 abstract class BasePresenter<V extends BaseView> {
 

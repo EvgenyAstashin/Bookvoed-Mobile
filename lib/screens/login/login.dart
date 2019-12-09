@@ -1,28 +1,28 @@
+import 'package:bookvoed/dialogs/error_dialog.dart';
+import 'package:bookvoed/dialogs/progress_dialog.dart';
 import 'package:bookvoed/network/user_api_impl.dart';
-import 'package:bookvoed/presenter/registration_presenter.dart';
-import 'package:bookvoed/ui/dialogs/error_dialog.dart';
-import 'package:bookvoed/view/registration_view.dart';
+import 'package:bookvoed/screens/registration/registration.dart';
+import 'package:bookvoed/screens/login/login_view.dart';
 import 'package:flutter/material.dart';
-import '../main.dart';
-import 'dialogs/progress_dialog.dart';
 
-class RegistrationScreen extends StatefulWidget {
+import '../../main.dart';
+import 'login_presenter.dart';
+
+class LoginScreen extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return RegistrationState();
+    return LoginState();
   }
 }
 
-class RegistrationState extends State<RegistrationScreen> implements RegistrationView {
-
-  RegistrationPresenter _presenter;
+class LoginState extends State<LoginScreen> implements LoginView {
+  LoginPresenter _presenter;
   TextEditingController _usernameController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
-  TextEditingController _passwordConfirmationController = TextEditingController();
   ProgressDialog _progressDialog;
 
-  RegistrationState() {
-    _presenter = RegistrationPresenter(this, UserApiImpl());
+  LoginState() {
+    _presenter = LoginPresenter(this, UserApiImpl());
   }
 
   @override
@@ -56,11 +56,6 @@ class RegistrationState extends State<RegistrationScreen> implements Registratio
                     maxLines: 1,
                     controller: _passwordController,
                     decoration: InputDecoration(labelText: 'Password'),
-                    obscureText: true),
-                TextField(
-                    maxLines: 1,
-                    controller: _passwordConfirmationController,
-                    decoration: InputDecoration(labelText: 'Password confirmation'),
                     obscureText: true)
               ],
             ),
@@ -68,29 +63,26 @@ class RegistrationState extends State<RegistrationScreen> implements Registratio
           Padding(
             padding: EdgeInsets.only(top: height * 0.02, bottom: height * 0.02),
             child: RaisedButton(
-              child: Text("Registration"),
+              child: Text("Sign in"),
               color: Colors.green,
               onPressed: () {
-                _presenter.registration(
-                    _usernameController.text, _passwordController.text, _passwordConfirmationController.text);
+                _presenter.login(
+                    _usernameController.text, _passwordController.text);
               },
             ),
+          ),
+          GestureDetector(
+            onTap: () {
+              _openRegistrationScreen();
+            },
+            child: Text("Create account",
+                style: TextStyle(fontWeight: FontWeight.bold)),
           )
         ]));
   }
 
   @override
-  void showErrorDialog(String message) {
-    ErrorDialog.show(context, message);
-  }
-
-  @override
-  void showProgressDialog(bool show) {
-    _progressDialog.show(show);
-  }
-
-  @override
-  void onUserRegistered() {
+  void onUserSignedIn() {
     Navigator.pop(context);
     Navigator.push(
       context,
@@ -98,4 +90,20 @@ class RegistrationState extends State<RegistrationScreen> implements Registratio
     );
   }
 
+  @override
+  void showIncorrectUsernameOrPasswordError() {
+    ErrorDialog.show(context, "Username or password isn't correct");
+  }
+
+  @override
+  void showProgressDialog(bool show) {
+    _progressDialog.show(show);
+  }
+
+  void _openRegistrationScreen() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => RegistrationScreen()),
+    );
+  }
 }

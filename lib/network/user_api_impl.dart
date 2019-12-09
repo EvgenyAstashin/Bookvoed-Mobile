@@ -10,7 +10,7 @@ class UserApiImpl extends UserApi {
   @override
   Future<Jwt> login(String username, String password) async {
     var request = LoginRegistrationRequest(username, password);
-    var response = await HttpClient.post('/users/login', request.toJson());
+    var response = await HttpClient.post('/users/screens.login', request.toJson());
     if (response.statusCode == 200)
       return Jwt.fromJson(json.decode(response.body));
     else

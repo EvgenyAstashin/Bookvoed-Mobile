@@ -1,7 +1,7 @@
 import 'package:bookvoed/app_values.dart';
 import 'package:bookvoed/network/user_api.dart';
-import 'package:bookvoed/presenter/base_presenter.dart';
-import 'package:bookvoed/view/login_view.dart';
+import 'package:bookvoed/mvp/base_presenter.dart';
+import 'package:bookvoed/screens/login/login_view.dart';
 
 class LoginPresenter extends BasePresenter<LoginView> {
 
