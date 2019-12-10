@@ -24,4 +24,11 @@ class Preferences {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString(_PASSWORD);
   }
+
+  static Future<bool> isUserCredentialsPresented() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var username = prefs.getString(_USERNAME);
+    var password = prefs.getString(_PASSWORD);
+    return username != null && username != '' && password != null && password != '';
+  }
 }

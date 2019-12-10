@@ -1,5 +1,5 @@
 import 'package:bookvoed/app_values.dart';
-import 'package:bookvoed/screens/login/login.dart';
+import 'package:bookvoed/screens/landing/landing.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(App());
@@ -16,7 +16,7 @@ class App extends StatelessWidget {
         primarySwatch: Colors.green,
         primaryColorDark: Colors.green.shade900
       ),
-      home: LoginScreen(),
+      home: LandingScreen(),
     );
   }
 }

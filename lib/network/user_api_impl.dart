@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:bookvoed/app_values.dart';
 import 'package:bookvoed/entity/Jwt.dart';
 import 'package:bookvoed/network/http_client.dart';
 import 'package:bookvoed/network/requests/login_request.dart';
@@ -10,9 +11,9 @@ class UserApiImpl extends UserApi {
   @override
   Future<Jwt> login(String username, String password) async {
     var request = LoginRegistrationRequest(username, password);
-    var response = await HttpClient.post('/users/screens.login', request.toJson());
+    var response = await HttpClient.post('/users/login', request.toJson());
     if (response.statusCode == 200)
-      return Jwt.fromJson(json.decode(response.body));
+      return convertAndSaveToken(response.body);
     else
       throw Exception('Not Autorized');
   }
@@ -22,8 +23,14 @@ class UserApiImpl extends UserApi {
     var request = LoginRegistrationRequest(username, password);
     var response = await HttpClient.post('/users/registration', request.toJson());
     if (response.statusCode == 201)
-      return Jwt.fromJson(json.decode(response.body));
+      return convertAndSaveToken(response.body);
     else
       throw Exception("Username isn't available");
+  }
+
+  Jwt convertAndSaveToken(String body) {
+    var jwt = Jwt.fromJson(json.decode(body));
+    AppValues.get().token = jwt.token;
+    return jwt;
   }
 }

@@ -1,6 +1,6 @@
-import 'package:bookvoed/app_values.dart';
 import 'package:bookvoed/network/user_api.dart';
 import 'package:bookvoed/mvp/base_presenter.dart';
+import 'package:bookvoed/preferences.dart';
 import 'package:bookvoed/screens/login/login_view.dart';
 
 class LoginPresenter extends BasePresenter<LoginView> {
@@ -12,7 +12,8 @@ class LoginPresenter extends BasePresenter<LoginView> {
   void login(String username, String password) {
     view.showProgressDialog(true);
     userApi.login(username, password).then((jwt) {
-      AppValues.get().token = jwt.token;
+      Preferences.setUsername(username);
+      Preferences.setPassword(password);
       view.showProgressDialog(false);
       view.onUserSignedIn();
     }).catchError((error) {
