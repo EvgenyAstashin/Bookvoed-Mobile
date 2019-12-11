@@ -5,7 +5,7 @@ import 'package:bookvoed/screens/registration/registration.dart';
 import 'package:bookvoed/screens/login/login_view.dart';
 import 'package:flutter/material.dart';
 
-import '../../main.dart';
+import '../main/main.dart';
 import 'login_presenter.dart';
 
 class LoginScreen extends StatefulWidget {

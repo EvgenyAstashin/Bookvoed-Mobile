@@ -4,7 +4,7 @@ import 'package:bookvoed/network/user_api_impl.dart';
 import 'package:bookvoed/screens/registration/registration_presenter.dart';
 import 'package:bookvoed/screens/registration/registration_view.dart';
 import 'package:flutter/material.dart';
-import '../../main.dart';
+import '../main/main.dart';
 
 class RegistrationScreen extends StatefulWidget {
   @override

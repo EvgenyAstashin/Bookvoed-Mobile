@@ -1,9 +1,9 @@
 import 'package:bookvoed/network/user_api.dart';
 import 'package:bookvoed/mvp/base_presenter.dart';
-import 'package:bookvoed/user_property_validator.dart';
+import 'package:bookvoed/utils/user_property_validator.dart';
 import 'package:bookvoed/screens/registration/registration_view.dart';
 
-import '../../preferences.dart';
+import '../../utils/preferences.dart';
 
 class RegistrationPresenter extends BasePresenter<RegistrationView> {
 
