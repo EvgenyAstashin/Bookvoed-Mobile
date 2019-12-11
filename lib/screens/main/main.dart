@@ -1,10 +1,8 @@
+import 'package:bookvoed/screens/login/login.dart';
+import 'package:bookvoed/screens/main/main_presenter.dart';
+import 'package:bookvoed/screens/main/main_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
-import 'package:progress_dialog/progress_dialog.dart';
-
-import '../../book_info.dart';
-import '../../entity/book.dart';
-import '../../network.dart';
 
 class MainScreen extends StatefulWidget {
   MainScreen({Key key}) : super(key: key);
@@ -13,13 +11,13 @@ class MainScreen extends StatefulWidget {
   _MainScreenState createState() => _MainScreenState();
 }
 
-class _MainScreenState extends State<MainScreen> {
-  ProgressDialog _progressDialog;
+class _MainScreenState extends State<MainScreen> implements MainView {
+  MainPresenter _presenter;
 
   @override
   void initState() {
     super.initState();
-    _progressDialog = ProgressDialog(context);
+    _presenter = MainPresenter(this);
   }
 
   @override
@@ -41,10 +39,33 @@ class _MainScreenState extends State<MainScreen> {
               child: ListView(
                 padding: EdgeInsets.zero,
                 children: <Widget>[
-                  _createDrawerItem(icon: Icons.library_books, text: 'Мои книги', onTap: (){_hideDrawer();}),
-                  _createDrawerItem(icon: Icons.local_library, text: 'Сейчас читаю', onTap: (){_hideDrawer();}),
-                  _createDrawerItem(icon: Icons.settings, text: 'Настройки', onTap: (){_hideDrawer();}),
-                  Divider(thickness: 1.0, indent: 10, endIndent: 10,),
+                  _createDrawerItem(
+                      icon: Icons.library_books,
+                      text: 'Мои книги',
+                      onTap: () {
+                        _hideDrawer();
+                      }),
+                  _createDrawerItem(
+                      icon: Icons.local_library,
+                      text: 'Сейчас читаю',
+                      onTap: () {
+                        _hideDrawer();
+                      }),
+                  _createDivider(),
+                  _createDrawerItem(
+                      icon: Icons.settings,
+                      text: 'Настройки',
+                      onTap: () {
+                        _hideDrawer();
+                      }),
+                  _createDrawerItem(
+                      icon: Icons.exit_to_app,
+                      text: 'Выход',
+                      onTap: () {
+                        _hideDrawer();
+                        _logout();
+                      }),
+                  _createDivider(),
                   Padding(
                     padding: EdgeInsets.only(left: 100, right: 100),
                     child: Image.asset('assets/images/logo.png'),
@@ -66,6 +87,13 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
+  @override
+  void openLoginScreen() {
+    Navigator.pop(context);
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => LoginScreen()));
+  }
+
   void _barcodeReaderPressed() async {
     String barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
         "#ff6666", "Cancel", false, ScanMode.BARCODE);
@@ -85,6 +113,17 @@ class _MainScreenState extends State<MainScreen> {
       ),
       onTap: onTap,
     );
+  }
+
+  Widget _createDivider() {
+    return Divider(
+        thickness: 1.0,
+        indent: 10,
+        endIndent: 10,);
+  }
+
+  void _logout() {
+    _presenter.logout();
   }
 
   void _hideDrawer() {

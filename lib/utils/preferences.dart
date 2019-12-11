@@ -31,4 +31,11 @@ class Preferences {
     var password = prefs.getString(_PASSWORD);
     return username != null && username != '' && password != null && password != '';
   }
+
+  static void clearUserCredentials() {
+    SharedPreferences.getInstance().then((prefs) {
+      prefs.setString(_USERNAME, null);
+      prefs.setString(_PASSWORD, null);
+    });
+  }
 }
