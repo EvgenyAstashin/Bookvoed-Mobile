@@ -9,4 +9,8 @@ class MainPresenter extends BasePresenter<MainView> {
     Preferences.clearUserCredentials();
     view.openLoginScreen();
   }
+
+  void onUserClicked() {
+    view.openUserScreen();
+  }
 }

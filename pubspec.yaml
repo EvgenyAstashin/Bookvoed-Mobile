@@ -28,6 +28,7 @@ flutter:
 
   assets:
     - assets/images/logo.png
+    - assets/images/no_avatar.jpg
 
 
 flutter_icons:

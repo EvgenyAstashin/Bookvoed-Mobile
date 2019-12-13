@@ -19,7 +19,7 @@ class LandingPresenter extends BasePresenter<LandingView> {
 
   void _login() {
     concatenateFutures<String, String>(Preferences.getUsername(), Preferences.getPassword()).then((pair) {
-      _api.login(pair.first, pair.second).then((jwt) {
+      _api.login(pair.first, pair.second).then((response) {
         view.openMainScreen();
       }).catchError((error) {
         view.openLoginScreen();

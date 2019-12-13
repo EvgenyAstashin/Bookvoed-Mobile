@@ -9,4 +9,6 @@ class UserPresenter extends BasePresenter<UserView> {
 
   UserPresenter(BaseView view, this._userApi) : super(view);
 
+  void sendUserData() {}
+
 }

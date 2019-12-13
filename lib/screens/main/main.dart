@@ -1,6 +1,7 @@
 import 'package:bookvoed/screens/login/login.dart';
 import 'package:bookvoed/screens/main/main_presenter.dart';
 import 'package:bookvoed/screens/main/main_view.dart';
+import 'package:bookvoed/screens/user/user_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 
@@ -30,35 +31,59 @@ class _MainScreenState extends State<MainScreen> implements MainView {
         child: Column(
           children: <Widget>[
             DrawerHeader(
-              child: Container(),
-              decoration: BoxDecoration(
-                color: Colors.green,
-              ),
-            ),
+                decoration: BoxDecoration(
+                  color: Colors.green,
+                ),
+                child: Container(
+                  width: double.infinity,
+                  child: GestureDetector(
+                    onTap: () {
+                      _presenter.onUserClicked();
+                    },
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: <Widget>[
+                        Container(
+                            width: 100.0,
+                            height: 100.0,
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                    fit: BoxFit.fill,
+                                    image: new AssetImage(
+                                        'assets/images/no_avatar.jpg')))),
+                        Padding(
+                          padding: EdgeInsets.only(top: 10),
+                          child: Text('jn;ah;h;akfjhkljashgaafgasfg'),
+                        ),
+                      ],
+                    ),
+                  ),
+                )),
             Expanded(
               child: ListView(
                 padding: EdgeInsets.zero,
                 children: <Widget>[
-                  _createDrawerItem(
+                  _createMenuItem(
                       icon: Icons.library_books,
                       text: 'Мои книги',
                       onTap: () {
                         _hideDrawer();
                       }),
-                  _createDrawerItem(
+                  _createMenuItem(
                       icon: Icons.local_library,
                       text: 'Сейчас читаю',
                       onTap: () {
                         _hideDrawer();
                       }),
                   _createDivider(),
-                  _createDrawerItem(
+                  _createMenuItem(
                       icon: Icons.settings,
                       text: 'Настройки',
                       onTap: () {
                         _hideDrawer();
                       }),
-                  _createDrawerItem(
+                  _createMenuItem(
                       icon: Icons.exit_to_app,
                       text: 'Выход',
                       onTap: () {
@@ -94,12 +119,18 @@ class _MainScreenState extends State<MainScreen> implements MainView {
         context, MaterialPageRoute(builder: (context) => LoginScreen()));
   }
 
+  @override
+  void openUserScreen() {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => UserScreen()));
+  }
+
   void _barcodeReaderPressed() async {
     String barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
         "#ff6666", "Cancel", false, ScanMode.BARCODE);
   }
 
-  Widget _createDrawerItem(
+  Widget _createMenuItem(
       {IconData icon, String text, GestureTapCallback onTap}) {
     return ListTile(
       title: Row(
@@ -117,9 +148,10 @@ class _MainScreenState extends State<MainScreen> implements MainView {
 
   Widget _createDivider() {
     return Divider(
-        thickness: 1.0,
-        indent: 10,
-        endIndent: 10,);
+      thickness: 1.0,
+      indent: 10,
+      endIndent: 10,
+    );
   }
 
   void _logout() {

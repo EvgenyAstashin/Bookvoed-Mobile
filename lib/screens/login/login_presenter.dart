@@ -11,7 +11,7 @@ class LoginPresenter extends BasePresenter<LoginView> {
 
   void login(String username, String password) {
     view.showProgressDialog(true);
-    userApi.login(username, password).then((jwt) {
+    userApi.login(username, password).then((response) {
       Preferences.setUsername(username);
       Preferences.setPassword(password);
       view.showProgressDialog(false);

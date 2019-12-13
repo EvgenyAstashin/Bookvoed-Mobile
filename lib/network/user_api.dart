@@ -1,8 +1,13 @@
-import 'package:bookvoed/entity/Jwt.dart';
+import 'package:bookvoed/entity/user.dart';
+import 'package:bookvoed/network/responses/login_registration_response.dart';
 
 abstract class UserApi {
 
-  Future<Jwt> login(String username, String password);
+  Future<LoginRegistrationResponse> login(String username, String password);
 
-  Future<Jwt> registration(String username, String password);
+  Future<LoginRegistrationResponse> registration(String username, String password);
+
+  Future<User> getUser();
+
+  Future<User> updateUser(User user);
 }
