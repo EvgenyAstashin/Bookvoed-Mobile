@@ -9,7 +9,7 @@ class LoginRegistrationResponse {
   LoginRegistrationResponse(this.user, this.jwt);
 
   LoginRegistrationResponse.fromJson(Map<String, dynamic> json) {
-    user = User.fromJson(json[user]);
-    jwt = Jwt.fromJson(json[jwt]);
+    user = User.fromJson(json['user']);
+    jwt = Jwt.fromJson(json['jwt']);
   }
 }

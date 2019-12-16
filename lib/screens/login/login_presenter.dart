@@ -10,14 +10,14 @@ class LoginPresenter extends BasePresenter<LoginView> {
   LoginPresenter(LoginView view, this.userApi) : super(view);
 
   void login(String username, String password) {
-    view.showProgressDialog(true);
+    view.showProgress(true);
     userApi.login(username, password).then((response) {
       Preferences.setUsername(username);
       Preferences.setPassword(password);
-      view.showProgressDialog(false);
+      view.showProgress(false);
       view.onUserSignedIn();
     }).catchError((error) {
-      view.showProgressDialog(false);
+      view.showProgress(false);
       view.showIncorrectUsernameOrPasswordError();
     });
   }

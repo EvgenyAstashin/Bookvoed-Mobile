@@ -6,5 +6,5 @@ abstract class LoginView extends BaseView {
 
   void onUserSignedIn();
 
-  void showProgressDialog(bool show);
+  void showProgress(bool show);
 }

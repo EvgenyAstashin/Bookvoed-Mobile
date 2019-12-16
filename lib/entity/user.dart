@@ -3,15 +3,15 @@ class User {
   String userName;
   String firstName;
   String secondName;
-  List<String> myBooks;
+  List<String> myBooks = List();
 
-  User(this.userName, this.firstName, this.secondName, this.myBooks);
+  User(this.userName, this.firstName, this.secondName);
 
   User.fromJson(Map<String, dynamic> json) {
     userName = json['userName'];
     firstName = json['firstName'];
     secondName = json['secondName'];
-    myBooks = json['myBooks'];
+    myBooks = List<String>.from(json['myBooks']);
   }
 
   Map<String, dynamic> toJson() {

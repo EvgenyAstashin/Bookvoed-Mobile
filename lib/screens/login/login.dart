@@ -96,7 +96,7 @@ class LoginState extends State<LoginScreen> implements LoginView {
   }
 
   @override
-  void showProgressDialog(bool show) {
+  void showProgress(bool show) {
     _progressDialog.show(show);
   }
 

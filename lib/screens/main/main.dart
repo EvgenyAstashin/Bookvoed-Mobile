@@ -54,7 +54,7 @@ class _MainScreenState extends State<MainScreen> implements MainView {
                                         'assets/images/no_avatar.jpg')))),
                         Padding(
                           padding: EdgeInsets.only(top: 10),
-                          child: Text('jn;ah;h;akfjhkljashgaafgasfg'),
+                          child: Text(_presenter.getUserFirstSecondName()),
                         ),
                       ],
                     ),
@@ -122,7 +122,7 @@ class _MainScreenState extends State<MainScreen> implements MainView {
   @override
   void openUserScreen() {
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => UserScreen()));
+        context, MaterialPageRoute(builder: (context) => UserScreen(null)));
   }
 
   void _barcodeReaderPressed() async {

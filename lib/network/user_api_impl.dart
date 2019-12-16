@@ -40,7 +40,7 @@ class UserApiImpl extends UserApi {
 
   @override
   Future<User> updateUser(User user) async {
-    var response = await HttpClient.post('/users/registration', user.toJson());
+    var response = await HttpClient.patch('/users', user.toJson());
     if (response.statusCode == 200)
       return User.fromJson(json.decode(response.body));
     else

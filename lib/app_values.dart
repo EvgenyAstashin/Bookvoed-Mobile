@@ -12,7 +12,8 @@ class AppValues {
     return _instance;
   }
 
-  static String baseUrl = '192.168.100.3:8080';
+  static String baseUrl = '10.69.252.153:8080';
+  //static String baseUrl = '192.168.100.3:8080';
   User user;
   String token;
 }
