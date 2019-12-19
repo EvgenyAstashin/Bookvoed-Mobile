@@ -2,6 +2,7 @@ import 'package:bookvoed/screens/login/login.dart';
 import 'package:bookvoed/screens/main/main_presenter.dart';
 import 'package:bookvoed/screens/main/main_view.dart';
 import 'package:bookvoed/screens/user/user_screen.dart';
+import 'package:bookvoed/utils/text_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 
@@ -23,6 +24,7 @@ class _MainScreenState extends State<MainScreen> implements MainView {
 
   @override
   Widget build(BuildContext context) {
+    var avatar = _presenter.getUserAvatar();
     return Scaffold(
       appBar: AppBar(
         title: Text("Мои книги"),
@@ -49,9 +51,9 @@ class _MainScreenState extends State<MainScreen> implements MainView {
                             decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 image: DecorationImage(
-                                    fit: BoxFit.fill,
-                                    image: new AssetImage(
-                                        'assets/images/no_avatar.jpg')))),
+                                    fit: BoxFit.cover,
+                                    image: isStringEmpty(avatar) ? AssetImage(
+                                        'assets/images/no_avatar.jpg') : NetworkImage(avatar)))),
                         Padding(
                           padding: EdgeInsets.only(top: 10),
                           child: Text(_presenter.getUserFirstSecondName()),

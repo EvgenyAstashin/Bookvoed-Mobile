@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bookvoed/mvp/base_view.dart';
 
 abstract class UserView extends BaseView {
@@ -15,4 +17,8 @@ abstract class UserView extends BaseView {
   void setFirstName(String firstName);
 
   void setSecondName(String secondName);
+
+  void setAvatarFromFile(File avatar);
+
+  void setAvatarFromNetwork(String link);
 }

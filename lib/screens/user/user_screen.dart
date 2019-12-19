@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bookvoed/dialogs/error_dialog.dart';
 import 'package:bookvoed/dialogs/progress_dialog.dart';
 import 'package:bookvoed/network/user_api_impl.dart';
@@ -22,6 +24,8 @@ class UserState extends State<UserScreen> implements UserView {
   TextEditingController _secondNameController = TextEditingController();
   ProgressDialog _progressDialog;
 
+  ImageProvider _avatar = AssetImage('assets/images/no_avatar.jpg');
+
   @override
   void initState() {
     super.initState();
@@ -40,15 +44,19 @@ class UserState extends State<UserScreen> implements UserView {
             children: <Widget>[
               Padding(
                 padding: EdgeInsets.only(top: 20, bottom: 10),
-                child: Container(
-                    width: 150.0,
-                    height: 150.0,
-                    decoration: new BoxDecoration(
-                        shape: BoxShape.circle,
-                        image: new DecorationImage(
-                            fit: BoxFit.fill,
-                            image: new AssetImage(
-                                'assets/images/no_avatar.jpg')))),
+                child: GestureDetector(
+                  child: Container(
+                      width: 150.0,
+                      height: 150.0,
+                      decoration: new BoxDecoration(
+                          shape: BoxShape.circle,
+                          image: new DecorationImage(
+                              fit: BoxFit.cover,
+                              image: _avatar))),
+                  onTap: () {
+                    _presenter.chooseAvatar();
+                  },
+                ),
               ),
               Padding(
                 padding: EdgeInsets.only(left: 20, right: 20),
@@ -116,5 +124,19 @@ class UserState extends State<UserScreen> implements UserView {
   @override
   void setSecondName(String secondName) {
     _secondNameController.text = secondName;
+  }
+
+  @override
+  void setAvatarFromFile(File avatar) {
+    setState(() {
+      _avatar = FileImage(avatar);
+    });
+  }
+
+  @override
+  void setAvatarFromNetwork(String link) {
+    setState(() {
+      _avatar = NetworkImage(link);
+    });
   }
 }

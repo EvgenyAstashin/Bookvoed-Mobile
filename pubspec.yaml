@@ -17,6 +17,7 @@ dependencies:
   path_provider: any
   flutter_launcher_icons: ^0.7.3
   shared_preferences: ^0.5.4+8
+  image_picker: ^0.6.2+3
 
 dev_dependencies:
   flutter_test:

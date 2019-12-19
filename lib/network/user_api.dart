@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:bookvoed/entity/user.dart';
+import 'package:bookvoed/network/responses/AvatartUploadingResponse.dart';
 import 'package:bookvoed/network/responses/login_registration_response.dart';
 
 abstract class UserApi {
@@ -10,4 +13,6 @@ abstract class UserApi {
   Future<User> getUser();
 
   Future<User> updateUser(User user);
+
+  Future<AvatarUploadingResponse> uploadAvatar(File file);
 }

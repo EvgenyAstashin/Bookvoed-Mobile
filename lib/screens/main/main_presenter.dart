@@ -22,4 +22,8 @@ class MainPresenter extends BasePresenter<MainView> {
       return "${user.firstName} ${user.secondName}";
     else return user.userName;
   }
+
+  String getUserAvatar() {
+    return AppValues.get().user.avatar;
+  }
 }

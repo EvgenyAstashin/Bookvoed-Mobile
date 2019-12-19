@@ -1,9 +1,12 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:bookvoed/app_values.dart';
 import 'package:bookvoed/entity/user.dart';
 import 'package:bookvoed/network/http_client.dart';
+import 'package:bookvoed/network/requests/AvatarUploadingRequest.dart';
 import 'package:bookvoed/network/requests/login_registration_request.dart';
+import 'package:bookvoed/network/responses/AvatartUploadingResponse.dart';
 import 'package:bookvoed/network/responses/login_registration_response.dart';
 import 'package:bookvoed/network/user_api.dart';
 
@@ -52,5 +55,19 @@ class UserApiImpl extends UserApi {
     AppValues.get().token = response.jwt.token;
     AppValues.get().user = response.user;
     return response;
+  }
+
+  @override
+  Future<AvatarUploadingResponse> uploadAvatar(File file) async {
+    List<int> imageBytes = file.readAsBytesSync();
+    print(imageBytes);
+    String avatarBase64 = base64Encode(imageBytes);
+    var extension = file.path.split('.').last;
+    var request = AvatarUploadingRequest(avatarBase64, extension);
+    var response = await HttpClient.post('/users/avatars', request.toJson());
+    if (response.statusCode == 200)
+      return AvatarUploadingResponse.fromJson(json.decode(response.body));
+    else
+      throw Exception();
   }
 }
