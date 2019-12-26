@@ -1,6 +1,6 @@
 import 'package:bookvoed/dialogs/error_dialog.dart';
 import 'package:bookvoed/dialogs/progress_dialog.dart';
-import 'package:bookvoed/network/user_api_impl.dart';
+import 'package:bookvoed/network/user/user_api_impl.dart';
 import 'package:bookvoed/screens/main/main.dart';
 import 'package:bookvoed/screens/registration/registration_presenter.dart';
 import 'package:bookvoed/screens/registration/registration_view.dart';

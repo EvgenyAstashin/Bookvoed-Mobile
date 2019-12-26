@@ -8,7 +8,7 @@ import 'package:bookvoed/network/requests/AvatarUploadingRequest.dart';
 import 'package:bookvoed/network/requests/login_registration_request.dart';
 import 'package:bookvoed/network/responses/AvatartUploadingResponse.dart';
 import 'package:bookvoed/network/responses/login_registration_response.dart';
-import 'package:bookvoed/network/user_api.dart';
+import 'package:bookvoed/network/user/user_api.dart';
 
 class UserApiImpl extends UserApi {
 

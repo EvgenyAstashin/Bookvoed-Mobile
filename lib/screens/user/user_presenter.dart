@@ -4,7 +4,7 @@ import 'package:bookvoed/app_values.dart';
 import 'package:bookvoed/entity/user.dart';
 import 'package:bookvoed/mvp/base_presenter.dart';
 import 'package:bookvoed/mvp/base_view.dart';
-import 'package:bookvoed/network/user_api.dart';
+import 'package:bookvoed/network/user/user_api.dart';
 import 'package:bookvoed/screens/user/user_view.dart';
 import 'package:bookvoed/utils/text_utils.dart';
 import 'package:image_picker/image_picker.dart';

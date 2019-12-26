@@ -19,7 +19,7 @@ class Book {
     title = json['title'];
     subtitle = json['subtitle'];
     description = json['description'];
-    authors = json['authors'];
+    authors = List<String>.from(json['authors']);
     pages = json['pages'];
     publisher = json['publisher'];
     publishedDate = json['publishedDate'];
@@ -38,5 +38,12 @@ class Book {
     data['publishedDate'] = publishedDate;
     data['image'] = image;
     return data;
+  }
+
+  static List<Book> parseList(List<dynamic> books) {
+    return books?.map((e) => e == null
+        ? null
+        : new Book.fromJson(e as Map<String, dynamic>))
+        ?.toList();
   }
 }

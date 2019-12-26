@@ -1,6 +1,12 @@
+import 'package:bookvoed/dialogs/error_dialog.dart';
+import 'package:bookvoed/dialogs/progress_dialog.dart';
+import 'package:bookvoed/entity/book.dart';
+import 'package:bookvoed/network/books/books_api_impl.dart';
+import 'package:bookvoed/screens/add_book/add_book_screen.dart';
 import 'package:bookvoed/screens/login/login.dart';
 import 'package:bookvoed/screens/main/main_presenter.dart';
 import 'package:bookvoed/screens/main/main_view.dart';
+import 'package:bookvoed/screens/my_books/my_books_screen.dart';
 import 'package:bookvoed/screens/user/user_screen.dart';
 import 'package:bookvoed/utils/text_utils.dart';
 import 'package:flutter/material.dart';
@@ -14,12 +20,17 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> implements MainView {
+
   MainPresenter _presenter;
+  ProgressDialog _progress;
+  Widget body;
 
   @override
   void initState() {
     super.initState();
-    _presenter = MainPresenter(this);
+    body = MyBooksScreen();
+    _presenter = MainPresenter(this, BooksApiImpl());
+    _progress = ProgressDialog(context);
   }
 
   @override
@@ -29,6 +40,7 @@ class _MainScreenState extends State<MainScreen> implements MainView {
       appBar: AppBar(
         title: Text("Мои книги"),
       ),
+      body: body,
       drawer: Drawer(
         child: Column(
           children: <Widget>[
@@ -108,7 +120,7 @@ class _MainScreenState extends State<MainScreen> implements MainView {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _barcodeReaderPressed,
+        onPressed: _presenter.addBook,
         child: Icon(Icons.add),
       ),
     );
@@ -127,9 +139,26 @@ class _MainScreenState extends State<MainScreen> implements MainView {
         context, MaterialPageRoute(builder: (context) => UserScreen(null)));
   }
 
-  void _barcodeReaderPressed() async {
-    String barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+  @override
+  Future<String> getBarcode() async {
+    return await FlutterBarcodeScanner.scanBarcode(
         "#ff6666", "Cancel", false, ScanMode.BARCODE);
+  }
+
+  @override
+  void showProgress(bool show) {
+    _progress.show(show);
+  }
+
+  @override
+  void showError(String message) {
+    ErrorDialog.show(context, message);
+  }
+
+  @override
+  void openAddBookScreen(Book book) {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => AddBookScreen(book)));
   }
 
   Widget _createMenuItem(

@@ -1,5 +1,5 @@
+import 'package:bookvoed/network/user/user_api_impl.dart';
 import 'package:bookvoed/screens/main/main.dart';
-import 'package:bookvoed/network/user_api_impl.dart';
 import 'package:bookvoed/screens/landing/landing_presenter.dart';
 import 'package:bookvoed/screens/landing/landing_view.dart';
 import 'package:bookvoed/screens/login/login.dart';
